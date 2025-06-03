@@ -71,6 +71,17 @@ __inline__ __device__ void check_and_update_byte_buffer(
   }
 }
 
+// HBSEO
+// CDF는 아래와 같이 있다고 가정했을 때,
+// CDF(A) = 0.1
+// CDF(B) = 0.3 (0.1 + 0.2)
+// CDF(C) = 0.6 (0.1 + 0.2 + 0.3)
+// CDF(D) = 1.0 (0.1 + 0.2 + 0.3 + 0.4)
+// 구간은 아래와 같을것이고, 이걸 기반으로 binary search해서 찾아감
+// A: [0, 0.1)
+// B: [0.1, 0.3)
+// C: [0.3, 0.6)
+// D: [0.6, 1)
 template <int BLOCK_SIZE>
 __inline__ __device__ uint16_t binsearch(const uint16_t* cdf_shared,
                                          uint16_t target, uint8_t max_sym,
